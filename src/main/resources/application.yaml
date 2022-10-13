@@ -1,0 +1,9 @@
+server:
+  port: 6620
+
+tradevan:
+  mq:
+    ip:
+    port:
+    username:
+    secret:
