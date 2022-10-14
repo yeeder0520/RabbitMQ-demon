@@ -1,9 +1,8 @@
 server:
   port: 6620
 
-tradevan:
-  mq:
-    ip:
-    port:
-    username:
-    secret:
+spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    addresses: 127.0.0.1:5672

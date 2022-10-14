@@ -1,10 +1,9 @@
 package justin.example.justinrabbitMQtest.interfaces;
 
-import justin.example.justinrabbitMQtest.infrastructure.mq.RabbitMqTestSend;
+import justin.example.justinrabbitMQtest.domain.model.User;
+import justin.example.justinrabbitMQtest.application.service.MessageTestSendService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author YeeDer
@@ -15,10 +14,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SendMessageController {
 
-    private final RabbitMqTestSend rabbitMqTestSend;
+    private final MessageTestSendService messageTestSendService;
 
-    @GetMapping("/send")
-    public void send(final @RequestParam String message) {
-        rabbitMqTestSend.send(message);
+    @GetMapping("/sendByExchangeAndRoutingKey")
+    public void sendByExchangeAndRoutingKey(
+            final @RequestParam String exchangeName,
+            final @RequestParam String routingKey,
+            final @RequestParam String message) {
+        messageTestSendService.sendByExchangeAndRoutingKey(exchangeName, routingKey, message);
+    }
+
+    @PostMapping("/sendUser")
+    public void sendUser(
+            final @RequestParam String routingKey,
+            final @RequestBody User user) {
+        System.out.println("user = " + user);
+        messageTestSendService.sendUser( routingKey, user);
+    }
+
+    @GetMapping("/sendByRoutingKey")
+    public void sendByRoutingKey(
+            final @RequestParam String routingKey,
+            final @RequestParam String message) {
+        messageTestSendService.sendByRoutingKey( routingKey, message);
+    }
+
+    @GetMapping("/sendLoop")
+    public void sendLoop(
+            final @RequestParam String exchangeName,
+            final @RequestParam String routingKey,
+            final @RequestParam String message) throws InterruptedException {
+        messageTestSendService.sendLoop(exchangeName, routingKey, message);
     }
 }
